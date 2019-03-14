@@ -1,0 +1,29 @@
+sudo: required
+language: java
+jdk:
+- oraclejdk8
+services:
+ -docker
+before_install: 
+  - chmod +x mvnw
+script: 
+  - docker build -t parnalaskar/docker-eureka-img .
+after_script: 
+  - docker images
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - echo "$DOCKER_PASSWORD" | docker login dockerio -u "$DOCKER_ID" --password-stdin
+  - docker push parnalaskar/docker-eureka-img
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-1"
+  app: "Eureka-server"
+  env: "EurekaServer-env"
+  bucket-name: "elasticbeanstalk-us-east-1-715582379091"
+  bucket-path: "Eureka-server"
+  on:
+    branch: master
+  access_key_id: "$AWS_ACCESS_KEY"
+  secret_access_key:
+   secure: "$AWS_SECRET_KEY"
+
+  

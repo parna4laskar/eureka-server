@@ -1,0 +1,19 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+  
+  	{
+      "name": "eureka",
+      "image": "parnalaskar/docker-eureka-img",
+      "essential": true,
+      "memoryReservation": 256,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 8761
+        }
+      ]
+    }
+
+  ]
+}
